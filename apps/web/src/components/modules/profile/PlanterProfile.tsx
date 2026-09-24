@@ -20,7 +20,6 @@ import {
   getPlanterReferralStats,
   getPlanterReferralUrl,
   REFERRAL_BONUS_XLM,
-  type PlanterReferralStats,
 } from "@/services/social.service";
 
 export interface PlanterProfileProps {
@@ -34,18 +33,13 @@ export const PlanterProfile: React.FC<PlanterProfileProps> = ({ initialAddress }
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
-  const [stats, setStats] = useState<PlanterReferralStats>(() =>
-    getPlanterReferralStats(address || "")
+  const stats = useMemo(
+    () => getPlanterReferralStats(address || ""),
+    [address]
   );
 
   const referralUrl = useMemo(() => {
     return address ? getPlanterReferralUrl(address) : "";
-  }, [address]);
-
-  useEffect(() => {
-    if (address) {
-      setStats(getPlanterReferralStats(address));
-    }
   }, [address]);
 
   useEffect(() => {

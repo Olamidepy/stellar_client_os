@@ -73,7 +73,7 @@ export function CampaignPushNotificationToggle({
               Campaign Push Notifications
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Receive real-time mobile push updates as this campaign reaches milestones.
+              Receive real-time mobile push updates as {campaignTitle ? campaignTitle : 'this campaign'} reaches milestones.
             </p>
           </div>
         </div>

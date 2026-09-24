@@ -4,11 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import { TreePine, User2 } from "lucide-react";
-<<<<<<< HEAD
-=======
-import { Trophy, User2 } from "lucide-react";
->>>>>>> upstream/main
+import { TreePine, Trophy, User2 } from "lucide-react";
 import { Sidebar, useSidebar } from "@/components/ui/sidebar";
 
 import { useIsMobile } from "@/hooks/use-mobile";
