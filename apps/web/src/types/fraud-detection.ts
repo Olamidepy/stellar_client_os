@@ -16,7 +16,7 @@ export interface SuspiciousActivityFlag {
   patternType: FraudPatternType;
   description: string;
   severityScore: number; // 0-100
-  evidenceDetails: Record<string, any>;
+  evidenceDetails: Record<string, unknown>;
   detectedAt: string;
 }
 

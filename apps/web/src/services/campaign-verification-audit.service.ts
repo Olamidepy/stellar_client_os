@@ -3,7 +3,6 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import type {
   VerificationActivityType,
-  VerificationStatus,
   VerificationAuditEntry,
   VerificationAuditTrail,
 } from '../types/campaign-verification-audit';
@@ -44,8 +43,8 @@ export class CampaignVerificationAuditService {
     try {
       const data = await fs.readFile(this.auditPath, 'utf-8');
       return JSON.parse(data) as Record<string, VerificationAuditTrail>;
-    } catch (err: any) {
-      if (err.code === 'ENOENT') return {};
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === 'ENOENT') return {};
       throw err;
     }
   }

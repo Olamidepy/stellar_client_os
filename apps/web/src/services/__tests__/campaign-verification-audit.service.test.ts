@@ -9,7 +9,7 @@ describe('CampaignVerificationAuditService', () => {
   let tmpDir: string;
   let auditService: CampaignVerificationAuditService;
   let pushService: CampaignPushNotificationService;
-  let pushNotificationsDispatched: any[] = [];
+  let pushNotificationsDispatched: Array<{ sub: unknown; payload: { title: string; body: string; data?: Record<string, unknown> } }> = [];
 
   beforeEach(async () => {
     tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'audit-test-'));

@@ -53,8 +53,8 @@ export class CampaignPushNotificationService {
     try {
       const data = await fs.readFile(this.subscriptionsPath, 'utf-8');
       return JSON.parse(data) as CampaignPushSubscription[];
-    } catch (err: any) {
-      if (err.code === 'ENOENT') return [];
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === 'ENOENT') return [];
       throw err;
     }
   }
@@ -63,8 +63,8 @@ export class CampaignPushNotificationService {
     try {
       const data = await fs.readFile(this.notificationsPath, 'utf-8');
       return JSON.parse(data) as DeliveredPushNotification[];
-    } catch (err: any) {
-      if (err.code === 'ENOENT') return [];
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === 'ENOENT') return [];
       throw err;
     }
   }
@@ -235,9 +235,9 @@ export class CampaignPushNotificationService {
       if (this.pushSender) {
         try {
           success = await this.pushSender(sub, { title, body, data: pushData });
-        } catch (err: any) {
+        } catch (err: unknown) {
           success = false;
-          errorMsg = err.message || 'Push transmission failed';
+          errorMsg = err instanceof Error ? err.message : 'Push transmission failed';
         }
       }
 

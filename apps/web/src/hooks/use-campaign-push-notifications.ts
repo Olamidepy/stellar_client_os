@@ -1,7 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import type { CampaignMilestoneType, DeviceType } from '@/types/campaign-notification';
+import type {
+  CampaignMilestoneType,
+  DeviceType,
+  CampaignPushSubscription,
+} from '@/types/campaign-notification';
 
 export interface UseCampaignPushOptions {
   campaignId?: string;
@@ -37,8 +41,8 @@ export function useCampaignPushNotifications(options: UseCampaignPushOptions = {
       const res = await fetch(`/api/mobile/push/subscribe?address=${encodeURIComponent(subscriberAddress)}`);
       if (res.ok) {
         const data = await res.json();
-        const active = data.subscriptions?.find(
-          (s: any) => s.campaignId === campaignId || s.campaignId === '*'
+        const active = (data.subscriptions as CampaignPushSubscription[] | undefined)?.find(
+          (s) => s.campaignId === campaignId || s.campaignId === '*'
         );
         if (active) {
           setIsSubscribed(true);
@@ -49,7 +53,7 @@ export function useCampaignPushNotifications(options: UseCampaignPushOptions = {
           setIsSubscribed(false);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn('Failed to fetch push subscription status:', err);
     } finally {
       setLoading(false);
@@ -115,8 +119,9 @@ export function useCampaignPushNotifications(options: UseCampaignPushOptions = {
 
       setIsSubscribed(true);
       return true;
-    } catch (err: any) {
-      setError(err.message || 'Failed to subscribe to push notifications');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to subscribe to push notifications';
+      setError(msg);
       return false;
     } finally {
       setLoading(false);
@@ -137,8 +142,9 @@ export function useCampaignPushNotifications(options: UseCampaignPushOptions = {
         return true;
       }
       return false;
-    } catch (err: any) {
-      setError(err.message || 'Failed to unsubscribe');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to unsubscribe';
+      setError(msg);
       return false;
     } finally {
       setLoading(false);
