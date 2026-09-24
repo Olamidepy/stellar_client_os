@@ -39,9 +39,10 @@ export async function POST(req: NextRequest) {
       errors: result.errors,
       delivered: result.delivered,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to dispatch milestone notification';
     return NextResponse.json(
-      { error: err.message || 'Failed to dispatch milestone notification' },
+      { error: message },
       { status: 500 }
     );
   }

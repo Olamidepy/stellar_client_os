@@ -23,7 +23,8 @@ export async function PUT(req: NextRequest) {
     );
 
     return NextResponse.json({ success: true, updated });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to update preferences' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to update preferences';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -25,8 +25,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, subscription }, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to subscribe' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to subscribe';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -48,8 +49,9 @@ export async function DELETE(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, message: 'Unsubscribed successfully' });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to unsubscribe' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to unsubscribe';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -64,7 +66,8 @@ export async function GET(req: NextRequest) {
       : all;
 
     return NextResponse.json({ subscriptions: filtered });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Failed to get subscriptions' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to get subscriptions';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

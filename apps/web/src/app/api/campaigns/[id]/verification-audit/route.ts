@@ -19,9 +19,10 @@ export async function GET(req: NextRequest, context: RouteContext) {
 
     const trail = await auditService.getAuditTrail(id);
     return NextResponse.json({ success: true, trail }, { status: 200 });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to fetch verification audit trail';
     return NextResponse.json(
-      { error: err.message || 'Failed to fetch verification audit trail' },
+      { error: message },
       { status: 500 }
     );
   }
@@ -71,9 +72,10 @@ export async function POST(req: NextRequest, context: RouteContext) {
     });
 
     return NextResponse.json({ success: true, entry }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to record verification activity';
     return NextResponse.json(
-      { error: err.message || 'Failed to record verification activity' },
+      { error: message },
       { status: 500 }
     );
   }
